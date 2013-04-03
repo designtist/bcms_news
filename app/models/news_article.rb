@@ -2,6 +2,8 @@ class NewsArticle < ActiveRecord::Base
 
   acts_as_content_block :belongs_to_attachment => true, :taggable => true
   
+  has_attached_file :news_image, :styles => {:large => "757x567", :medium => "300x300", :double_box => "347x187#", :single_box => "187x187#", :thumb => "100x100#"}
+  
   belongs_to :category
 
   validates_presence_of :name, :release_date

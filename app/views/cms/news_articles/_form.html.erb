@@ -3,5 +3,16 @@
 <%= f.cms_drop_down :category_id, categories_for('News Article').map{|c| [c.path, c.id]} %>
 <%= f.cms_text_area :summary, :style => "height: 100px" %>
 <%= f.cms_text_editor :body %>
-<%= f.cms_file_field :attachment_file, :label => "File" %>
+<!-- <%= f.cms_file_field :attachment_file, :label => "File" %> -->
 <%= f.cms_tag_list %>
+<div class="fields file_fields">
+	<label for="news_article_image">Image</label>	
+	<div class="news_article_image" class="file_inputs">
+		<%= f.file_field :news_image %>
+	</div>
+</div>
+<div class="news_article_image_image">
+	<% if @block.news_image.present? %>
+		<%= image_tag @block.news_image.url(:thumb) %>
+	<% end %>
+</div>

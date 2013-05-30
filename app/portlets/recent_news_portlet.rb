@@ -10,7 +10,11 @@ class RecentNewsPortlet < Cms::Portlet
     end
 
     if attributes.category_id.blank?
-      @articles = BcmsNews::NewsArticle.released.all(:order => order, :limit => attributes.limit)
+      if !attributes.last_months.blank?
+        @articles = BcmsNews::NewsArticle.released_in_past_months(attributes.last_months.to_i).all(:order => order, :limit => attributes.limit)
+      else
+        @articles = BcmsNews::NewsArticle.released.all(:order => order, :limit => attributes.limit)
+      end
     else
       @category = Cms::Category.find(attributes.category_id)
       @articles = BcmsNews::NewsArticle.released.all(:conditions => ["category_id = ?", @category.id], 

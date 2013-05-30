@@ -27,6 +27,11 @@ class BcmsNews::NewsArticle < ActiveRecord::Base
     def with_slug(slug)
       where(:slug => slug)
     end
+    
+    def released_in_past_months(num)
+      d = Time.now
+      where(:published => true).where("release_date <= ? AND release_date >= ?", d.beginning_of_day, d.beginning_of_day.months_ago(num))
+    end
   end
 
   def category_name

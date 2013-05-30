@@ -1,20 +1,30 @@
-<div>
-  <% @articles.group_by(&:year).sort_by(&:first).reverse.each do |year, year_articles| %>
-    <!-- <%= year %> -->
-    <% year_articles.group_by(&:month).sort_by(&:first).reverse.each do |month, month_articles| %>
-      <b class="month"><%= Date::MONTHNAMES[month] %></b>
-      <% for article in month_articles.sort_by(&:release_date).reverse %>
-        <div class="news-item">
-          <% unless article.release_date.blank? -%>
-            <span class="release-date"><b><%= article.release_date.to_s(:long) %></b></span><br/>
-          <% end %>
+<div id="news_timeline">
+	<ul class="news_years_list">
+		<% @articles.group_by(&:year).sort_by(&:first).reverse.each do |year, year_articles| %>
+			<li class="year <%= 'expand' if year_articles.length <= 4 %>"><a href="#" id="list_year" class="list_expand"><h4 class="timeline"><%=  year %></h4> </a>
+				<ul class="news_monts_list <%= current_page.path %>">
+				    <% year_articles.group_by(&:month).sort_by(&:first).reverse.each do |month, month_articles| %>					
+						<li class="month <%= 'expand' if month_articles.length <= 2 %>"><a href="#" id="list_months" class="list_expand"><h4 class="timeline month"><%=  t("date.month_names")[month] %></h4>
+							<ul class="news_items_list">
+								<% for article in month_articles.sort_by(&:release_date).reverse %>
+									<li class="item">
+								        <div class="news-item">
+								          <% unless article.release_date.blank? -%>
+								            <span class="release-date"><%= l article.release_date.to_date, :format => :long %></span><br/>
+								          <% end %>
 
-          <b><%= link_to article.name, news_article_path(article.route_params) %></b><br/>
-          <% unless article.summary.blank? -%>
-            <p><%= article.summary %></p>
-          <% end %>
-        </div>
-      <% end %>
-    <% end %>
-  <% end %>
+								          <b><%= link_to article.name, news_article_path(article.route_params) %></b><br/>
+								          <% unless article.summary.blank? -%>
+								            <!-- <p><%= article.summary %></p> -->
+								          <% end %>
+								        </div>
+									</li>
+						      <% end %>
+							</ul>
+						</li>
+					<% end %>
+				</ul>
+			</li>
+		<% end %>
+	</ul>
 </div>

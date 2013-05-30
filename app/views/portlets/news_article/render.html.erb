@@ -1,6 +1,8 @@
 <% if @news_article -%>
   <% page_title @news_article.name %>
   <h2><%=h @news_article.name %></h2>
+	<p><span><%= l @news_article.release_date.to_date, :format => :long %></span></p>
+	<p><%= @news_article.summary.html_safe %></p>
   <p><%= @news_article.body.html_safe %></p>
 <% else -%>
   <b>Missing required parameter</b><br/>

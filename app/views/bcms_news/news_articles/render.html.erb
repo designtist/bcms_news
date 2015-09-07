@@ -1,5 +1,9 @@
 <h2><%=h @content_block.name %></h2>
 <p><%= @content_block.body.html_safe %></p>
-<% if @content_block.file %>
-<%= link_to "Attachment", attachment_path_for(@content_block.file) %>
+<p><b>angehängte Bilder:</b> <%= @content_block.attachments.reject{ |a| a.attachment_name != 'images' }.length %></p>
+
+<% unless @content_block.attachments.empty? %>
+	<% @content_block.attachments.reject{ |a| a.attachment_name != 'images' }.each do |image| %>
+		<%= image_tag attachment_path_for(image), :height => "50%", :width => "50%" %>
+	<% end %>
 <% end %>

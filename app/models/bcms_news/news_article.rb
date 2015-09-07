@@ -1,7 +1,8 @@
 class BcmsNews::NewsArticle < ActiveRecord::Base
   acts_as_content_block :taggable => true
   
-  has_attachment :file
+  # has_attachment :file
+  has_many_attachments :images, :styles => { :raster => "225x135", :big => "715x446" }
   
   belongs_to :category, :class_name=>"Cms::Category"
 
